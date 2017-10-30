@@ -44,6 +44,7 @@ install.packages("ggplot2")
 install.packages("reshape2")
 install.packages("plyr")
 install.packages("devtools")
+package_version("dplyr")
 
 library(devtools)
 library(ggplot2)
@@ -64,4 +65,40 @@ ggplot(data2, aes(area = sum, fill = MCC_CSOPORT, label = PARTNER,
   geom_treemap_subgroup_text(place = "centre", grow = T, alpha = 0.5, colour =
                                "black", fontface = "italic", min.size = 0) +
   geom_treemap_text(colour = "white", place = "topleft", reflow = T)
+
+
+
+remove.packages("dplyr")
+remove.packages("glue")
+install.packages('dplyr', dependencies = TRUE)
+
+write.csv(data, file = "data.csv")
+data$MCC_CSOPORT <- as.factor(data$MCC_CSOPORT)
+data$type <- as.factor(data$type)
+data$sum <- round(data$sum)
+
+data <- as.data.frame(data)
+
+ggplot(data, aes(x = MCC_CSOPORT,y = sum)) + geom_bar(aes(fill = type), stat = "identity", position = "identity", alpha = 0.7, width = 0.8) 
++  coord_polar("y", start=0)
+
+
+
+
+bp<- ggplot(data, aes(x="", y=sum, fill=type))+
+geom_bar(width = 1, stat = "identity")
+bp
+
+pie <- bp + coord_polar("y", start=0)
+pie
+
+pie + scale_fill_manual(values=c("#999999", "#E69F00", "#56B4E9"))
+
+ p <- ggplot(data, aes(x=MCC_CSOPORT, y=sum, fill=type)) +
+    geom_bar( stat="identity", position = "identity", alpha = 0.7) + theme_light() +
+    theme(axis.title.y=element_text(angle=0))
+p <- p + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
+p + coord_polar()  + aes(x=reorder(MCC_CSOPORT, sum)) +
+    theme(axis.text.x = element_text(angle=-20)) 
+
 
