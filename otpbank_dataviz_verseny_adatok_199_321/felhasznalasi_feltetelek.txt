@@ -1,0 +1,7 @@
+Felhasználási feltételek
+Az elemzési adatbázisban található adatok az OTP Bank tulajdonát képezik, és a következõ feltételek mellett használhatóak fel:
+
+- Az adatok csak a jelen adatvizualizációs versenyhez használhatóak fel. Bármilyen további akár kereskedelmi célú, akár egyéb felhasználáshoz, illetve az adatok továbbadásához az OTB Bank elõzetes írásos engedélye szükséges. Az engedélykérésrõl részletek a FAQ dokumentumban olvashatóak.
+- A verseny után a versenyhez készített és ténylegesen beadott adatvizualizációk publikálhatóak statikus formában (például .png, .jpg) illetve referenciamunkák között szerepeltethetõek. A szervezõk azonban fenntartják a jogot, hogy ezt a publikációs jogot egyedi esetekben visszavonják.
+- Minden elemzésen illetve vizualizáción fel kell tüntetni, hogy az adatok forrása az OTB Bank.
+- Az elemzések, vizualizációk és kapcsolódó publikációk nem szerepeltethetik a versenyt, az OTP Bankot, illetve a bank partnereit negatív kontextusban

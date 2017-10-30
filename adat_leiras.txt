@@ -1,0 +1,58 @@
+Adatleírás
+
+Az elemzési adatbázis 4 táblát tartalmaz, ezek a következõek:
+
+    Ügyfél
+    Havi ajánlatok
+    Havi tranzakciók
+    Részletes tranzakciók
+
+Az adatokból egy rövid minta itt érhetõ el: Excel munkafüzet vagy Google Sheets.
+
+A versenyrõl további tudnivalók a FAQ dokumentumban találhatóak.
+Ügyfél
+
+Az adattábla tartalmazza a két tranzakciós adatbázis bármelyikében szereplõ ügyfelek demográfiai adatait.  Amennyiben a vizsgálatokat az ügyfelek demográfiai adataira is ki szeretné terjeszteni, akkor UGYFEL_ID kapcsolómezõn keresztül lehet ezeket az adatokat a tranzakciós adattáblához kapcsolni.
+
+ Az ugyféltáblában lévõ adatok töltöttsége különbözõ, vannak 100%-ban töltött adatok és nem 100%-ban töltött adatok is. A felhasználás céljától függõen ezt érdemes figyelembe venni. Az ügyfeleket jellemzõ legfontosabb mutatószámok kerekítettek (jövedelem, lakhely koordináták, életkor) adatvédelmi okokból.
+
+ Az egyes ügyfelekrõl a következõ jellemzõk állnak rendelkezésre:
+ugyfel_id, ugyfel_neme, ugffel_eletkor, ugyfel_jovedelem_avg, ugyfel_lakhely_telepules, lakhely_eov_x, lakhely_eov_y, lakhely_lat, lakhely_lon, pprogram_reg_kezd, pprogram_reg_idotartam_honap, ugyfel_csaladi_allapot, ugyfel_iskolai_vegzettsege, ugyfel_foglalkozasa
+Aktív ajánlatok
+
+Ez a tábla azt mutatja meg, hogy az egyes ügyfeleknek az adott hónapban hány aktivizált ajánlata van a Kedvezményprogram partnereinél. Néhány kiemelt partner név szerint is szerepel (például MOL), a többi partner esetében MCC kategóriára (autó, ruha, stb) vannak aggregálva az adatok. Ez utóbbi esetben a Partner mezõben a PARTNER_TAG érték szerepel. 
+
+ Az aktív ajánlatokról a következõ jellemzõk állnak rendelkezésre:
+ugyfel_id, honap, mcc_csoport, partner, aktiv_ajanlat_db
+Havi aggregált tranzakciók
+
+Az adattábla egy ügyfélmintára vonatkozóan tartalmazza az ügyfelek  hónap-partner-MCC kategória szintre aggregált  tranzakciós adatait 201705-201707 hónapokra vonatkozóan (3 hónap)
+
+ Egy ügyfél több partnernél is rendelkezhet aktív ajánlattal és több partnernél is tranzaktálhat. Nem csak az aktív ajánlattal rendelkezõ ügyfelek tranzaktálhatnak és így nem minden tranzaktákló ügfyél rendelkezik aktív ajánlattal.
+
+A tranzakciók partneri státusz szemponjából három csoportra oszthatóak: Kiemelt (TOP) partnerek, a kedveznényprogramban részvevõ további partnerek, illetve nem partnerek.
+
+    A TOP partnerekre vonatkozóan a PARTNER mezõ egyedileg töltött
+    Azon tranzakcióknál, amelyek partner tag partnereknél, de nem a nevesített TOP partnereknél  történtek egységesen PARTNER_TAG megnevezés szerepel. a PARTNER mezõben. Esetükben az MCC kategória ad egy további alábontást.
+    Azon tranzakciók esetén, amelyek nem partner tagoknál történtek, egységesen NEM_PARTNER_TAG megnevezés szerepel a PARTNER mezõben. Esetükben ismét csak az MCC kaetgória képezheti egy összehasonlítás alapját.
+
+A TRX_DB és TRX_OSSZEG mezõk megadják, hogy adott PARTNER és MCC_KATEGORIA esetében hány tranzakciót és mekkora összegben végzett az ügyfél. 
+
+A TRX_PP_KEDVEZMENY_FLAG mezõ jelzi, hogy elérhetõ volt-e valamilyen kedvezmény, a TRX_PP_KEDVEZMENY_JOVAIRT_FLAG pedig megmutatja, hogy az ügyfél ténylegesen részesült-e kedvezmény jóváírásban.  Ez attól függ, hogy elõzetesen aktiválta-e az ügyfél az adott partner ajánlatát, ha igen, akkor automatikusan megkapja a jóváírást, a vásárlás során már nincs teendõje. A jóváírt kedvezmény összege nem publikus.
+
+A tábla tartalmazza továbbá az adott partner és MCC kombinációra vonatkozó legmagasabb tranzakciószámú vásárlási helyszín koordinátáit is. A helyszín koordinátái  mind EOV (egységes országos vetület), mind GPS formátumban rendelkezésre állnak. Az EOV formátumot egyszerûen lehet használni légvonal távolság mérésére (a2+b2=c2), a GPS formátum viszont térképen (Google Maps, OpsenStreetMap) történõ ábrázoláshoz hasznos.
+
+A táblában a következõ mezõk szerepelnek:
+ugyfel_id, trx_honap, partner, mcc_csoport, trx_db, trx_osszeg, trx_pp_kedvezmeny_flag, trx_pp_kedvezmeny_jovairt_flag, top_eov_x, top_eov_y, top_lat, top_lon
+Részletes tranzakciók
+
+Az adattábla egy ügyfélmintára vonatkozóan tartalmazza az ügyfelek  C&A partnernél végrehajtott tranzakcióit elemi szinten, 201705-201707 hónapokra vonatkozóan (3 hónap).  
+
+A táblában szereplõ ügyfélminta eltérõ a havi tranzakciós tábla ügyfélmintájától. A két ügyfélminta nem összekapcsolható, egymással nem validálható. Az adattábla  a minta ügyfélkörnek mind a partneri promóciós, mind a nem partneri promóciós tranzakcióit tartalmazza.
+
+Az egyedi beazonosíthatóságot megakadályozandó a tábla a tranzakciónak csak a napját tartalmazza, az idõpontot nem, valamint, az aggregált tranzakciós összegek kerekítettek. 
+
+A tranzakció helyszínének koordinátái  mind EOV (egységes országos vetület), mind GPS fomrátumban rendelkezésre állnak. Az EOV formátumot egyszerûen lehet használni légvonal távolság mérésére (a2+b2=c2), a GPS formátumot, viszont térképen (Google Maps, OpeenStreetMap) történõ ábrázoláshoz.
+
+ A tábla mezõi:
+ugyfel_id, partner, mcc_kategoria, trx_honap, trx_datum, trx_eov_x, trx_eov_y, trx_lat, trx_lon, trx_db, trx_osszeg, potencialis_kedvezmeny_flag, jovairt_kedvezmeny_flag
