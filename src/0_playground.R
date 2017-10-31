@@ -82,7 +82,7 @@ data <- as.data.frame(data)
 ggplot(data, aes(x = MCC_CSOPORT,y = sum)) + geom_bar(aes(fill = type), stat = "identity", position = "identity", alpha = 0.7, width = 0.8) 
 +  coord_polar("y", start=0)
 
-
+ggplot(data, aes(x = MCC_CSOPORT,y = sum)) + geom_col(aes(fill = type), position = "identity")
 
 
 bp<- ggplot(data, aes(x="", y=sum, fill=type))+
@@ -102,3 +102,49 @@ p + coord_polar()  + aes(x=reorder(MCC_CSOPORT, sum)) +
     theme(axis.text.x = element_text(angle=-20)) 
 
 
+ggplot(data, aes(x = MCC_CSOPORT, y = sum, fill = type,)) +
+  geom_col() +
+  guides(fill = FALSE) +
+  labs(x = "Item Code", y = "Sales Rate", title = "Sale Rate Of Based On Item Code")
+
+
+p <- ggplot(data, aes(x=MCC_CSOPORT, y=sum, fill=type)) +
+  geom_bar(stat="identity",position = "dodge", colour="black", alpha = 0.5)+
+  guides(fill=guide_legend(reverse=TRUE)) +
+  scale_fill_brewer(palette="Pastel1")
+p <- p + theme(axis.text.x = element_text(angle=45, vjust = 1, hjust=1))
+p + coord_polar()  + aes(x=reorder(MCC_CSOPORT, sum)) +
+  theme(axis.text.x = element_text(angle=-20)) 
+
+install.packages("ggradar")
+library(ggradar)
+devtools::install_github("ricardo-bion/ggradar", 
+                         dependencies=TRUE)
+
+unique(data$MCC_CSOPORT)
+data.radio <-data.frame()
+names(data.radio) <- unique(data$MCC_CSOPORT)
+install.packages("tidyr")
+library(tidyr)
+
+data.radio <- spread(data, MCC_CSOPORT, sum)
+library(fmsb)
+
+
+data.radio <- as.data.frame(data.radio)
+row.names(data.radio) <- data.radio$type
+data.radio <- data.radio[,-1]
+
+data.radio=rbind(rep(max(data.radio, na.rm=TRUE),5) , rep(0,5) , data.radio)
+
+radarchart(data.radio)
+colors_border=c( rgb(0.2,0.5,0.5,0.9), rgb(0.8,0.2,0.5,0.9) , rgb(0.7,0.5,0.1,0.9) )
+colors_in=c( rgb(0.2,0.5,0.5,0.4), rgb(0.8,0.2,0.5,0.4) , rgb(0.7,0.5,0.1,0.4) )
+radarchart( data.radio  , axistype=1 , 
+            pcol=colors_border , pfcol=colors_in , plwd=4 , plty=1,
+            cglcol="grey", cglty=1, axislabcol="grey", caxislabels=seq(0,max(data.radio, na.rm=TRUE),5), cglwd=0.8,
+            vlcex=0.8 
+)
+
+
+install.packages("shinydashboard")
